@@ -169,7 +169,7 @@ class Application(Frame):
             self.dec_pass = self.dec_cipehr.decrypt(self.enc_pass)
 
     def resize(self):
-        f = open('C:\\Users\\vladw\PycharmProjects\python_tests\pass_log_saver\\name_mail_pass', 'r')
+        f = open('C:\\Users\\Валерия\\PycharmProjects\\python_tests\\pass_log_saver\\name_mail_pass', 'r')
 
         self.height_num = 0
 
