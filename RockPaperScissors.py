@@ -22,6 +22,7 @@ class Player:
             return game_pos[2]
 
 
+
 class AI:
 
     score = 0
