@@ -101,7 +101,7 @@ class Application(Frame):
 
         name = '{:<12}'.format('Name')
         mail = '{:<24}'.format('Mail')
-        password = '{:<10}'.format('Password')
+        password = '{:<10}'.format('Password \n')
         str = name + mail + password
         """TO DO
         подумать, как реализовать вывод информации в text_box 
@@ -112,6 +112,8 @@ class Application(Frame):
 
         self.text_box["state"] = "disabled"
 
+        self.decrypt_data()
+
         self.text_box.pack(fill=Y)
 
     def clear_entry(self):
@@ -121,16 +123,18 @@ class Application(Frame):
         self.resize()
 
     def crypt_data(self):
-        self.name = str(self.name_ent.get()).encode('utf-8')
-        self.mail = str(self.mail_ent.get()).encode('utf-8')
-        self.password = str(self.pass_ent.get()).encode('utf-8')
+        self.cip_name = str(self.name_ent.get()).encode('utf-8')
+        self.cip_mail = str(self.mail_ent.get()).encode('utf-8')
+        self.cip_password = str(self.pass_ent.get()).encode('utf-8')
+
+        self.name = str(self.name_ent.get())
 
         self.cipher_key = Fernet.generate_key()
         self.cipher = Fernet(self.cipher_key)
 
-        self.crypt_name = self.cipher.encrypt(self.name)
-        self.crypt_mail = self.cipher.encrypt(self.mail)
-        self.crypt_pass = self.cipher.encrypt(self.password)
+        self.crypt_name = self.cipher.encrypt(self.cip_name)
+        self.crypt_mail = self.cipher.encrypt(self.cip_mail)
+        self.crypt_pass = self.cipher.encrypt(self.cip_password)
 
         self.add_data_in_file()
 
@@ -144,7 +148,12 @@ class Application(Frame):
         f.close()
 
         self.text_box["state"] = "normal"
-        str = self.name + self.mail + self.password + "\n"
+
+        name = '{:<12}'.format(self.name_ent.get())
+        mail = '{:<24}'.format(self.mail_ent.get())
+        password = '{:<10}'.format(self.pass_ent.get())
+
+        str = name + mail + password + "\n"
 
         self.text_box.insert(INSERT, str)
         self.text_box["state"] = "disabled"
@@ -158,15 +167,26 @@ class Application(Frame):
         for line in f:
             self.decrypted_text = line.split(' ')
             self.enc_name = self.decrypted_text[0].encode('utf-8')
-            self.enc_mail = self.decrypted_text[0].encode('utf-8')
-            self.enc_pass = self.decrypted_text[0].encode('utf-8')
-            self.enc_cipher_key = self.decrypted_text[0].encode('utf-8')
+            self.enc_mail = self.decrypted_text[1].encode('utf-8')
+            self.enc_pass = self.decrypted_text[2].encode('utf-8')
+            self.enc_cipher_key = self.decrypted_text[3].encode('utf-8')
 
             self.dec_cipehr = Fernet(self.enc_cipher_key)
 
             self.dec_name = self.dec_cipehr.decrypt(self.enc_name)
             self.dec_mail = self.dec_cipehr.decrypt(self.enc_mail)
             self.dec_pass = self.dec_cipehr.decrypt(self.enc_pass)
+
+            name = '{:<12}'.format(self.dec_name.decode('utf-8'))
+            mail = '{:<24}'.format(self.dec_mail.decode('utf-8'))
+            password = '{:<10}'.format(self.dec_pass.decode('utf-8'))
+
+            self.text_box["state"] = "normal"
+
+            str = name + mail + password + "\n"
+
+            self.text_box.insert(INSERT, str)
+            self.text_box["state"] = "disabled"
 
     def resize(self):
         f = open('C:\\Users\\Валерия\\PycharmProjects\\python_tests\\pass_log_saver\\name_mail_pass', 'r')
@@ -176,8 +196,12 @@ class Application(Frame):
         for line in f:
             self.height_num += 1
 
-        self.height = 300 + self.height_num * 14
-        self.master.geometry(f"500x{self.height}")
+        self.height = 300 + self.height_num * 15
+
+        if self.height < 600:
+            self.master.geometry(f"500x{self.height}")
+        else:
+            self.master.geometry("500x600")
 
 
 def create_app():
