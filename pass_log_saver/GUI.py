@@ -72,22 +72,28 @@ class Application(Frame):
         self.frame3 = Frame(self)
         self.frame3.pack(fill=X)
 
-        self.add_button = Button(self.frame3, width=10, height=2)
-        self.add_button["text"] = "Add data"
-        self.add_button["font"] = self.label_font_1
-        self.add_button["command"] = self.crypt_data
+        self.add_button = Button(self.frame3,
+                                 text="Add data",
+                                 width=10,
+                                 height=2,
+                                 font=self.label_font_1,
+                                 command=self.crypt_data)
         self.add_button.grid(row=1, column=1, pady=10, padx=30)
 
-        self.clear_button = Button(self.frame3, width=10, height=2)
-        self.clear_button["text"] = "Clear"
-        self.clear_button["font"] = self.label_font_1
-        self.clear_button["command"] = self.clear_entry
+        self.clear_button = Button(self.frame3,
+                                   text="Clear",
+                                   width=10,
+                                   height=2,
+                                   font=self.label_font_1,
+                                   command=self.clear_entry)
         self.clear_button.grid(row=1, column=2, pady=10, padx=25)
 
-        self.dop_button = Button(self.frame3, width=10, height=2)
-        self.dop_button["text"] = "Dop btn"
-        self.dop_button["font"] = self.label_font_1
-        self.dop_button["command"] = self.resize
+        self.dop_button = Button(self.frame3,
+                                 text="Dop btn",
+                                 width=10,
+                                 height=2,
+                                 font=self.label_font_1,
+                                 command=self.resize)
         self.dop_button.grid(row=1, column=3, pady=10, padx=30)
 
         self.frame4 = Frame(self)
@@ -103,10 +109,6 @@ class Application(Frame):
         mail = '{:<24}'.format('Mail')
         password = '{:<10}'.format('Password \n')
         str = name + mail + password
-        """TO DO
-        подумать, как реализовать вывод информации в text_box 
-        
-        """
 
         self.text_box.insert(INSERT, str)
 
@@ -139,7 +141,7 @@ class Application(Frame):
         self.add_data_in_file()
 
     def add_data_in_file(self):
-        f = open('C:\\Users\\vladw\PycharmProjects\python_tests\pass_log_saver\\name_mail_pass', 'a')
+        f = open('C:\\Users\\vladw\\PycharmProjects\\python_tests\\pass_log_saver\\name_mail_pass', 'a')
 
         f.write(self.crypt_name.decode('utf-8') + ' ' +
                 self.crypt_mail.decode('utf-8') + ' ' +
@@ -162,7 +164,7 @@ class Application(Frame):
         self.resize()
 
     def decrypt_data(self):
-        f = open('C:\\Users\\vladw\PycharmProjects\python_tests\pass_log_saver\\name_mail_pass', 'r')
+        f = open('C:\\Users\\vladw\\PycharmProjects\\python_tests\\pass_log_saver\\name_mail_pass', 'r')
 
         for line in f:
             self.decrypted_text = line.split(' ')
@@ -189,7 +191,7 @@ class Application(Frame):
             self.text_box["state"] = "disabled"
 
     def resize(self):
-        f = open('C:\\Users\\Валерия\\PycharmProjects\\python_tests\\pass_log_saver\\name_mail_pass', 'r')
+        f = open('C:\\Users\\vladw\\PycharmProjects\\python_tests\\pass_log_saver\\name_mail_pass', 'r')
 
         self.height_num = 0
 
